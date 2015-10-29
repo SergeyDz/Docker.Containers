@@ -5,7 +5,6 @@
   "description": "Node.js Hello world app on Ubuntu using docker",
   "author": "Sergey Dzyuban <sergey.dzyuban@gmail.com>",
   "dependencies": {
-    "express": "latest",
-    "amqplib": "latest"
+    "express": "latest"
   }
 }

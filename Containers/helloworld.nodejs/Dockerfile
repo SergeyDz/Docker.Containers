@@ -4,6 +4,8 @@
 
 FROM ubuntu:15.10
 
+RUN apt-get install -y wget
+
 # Install Node.js and npm
 RUN 	apt-get update
 RUN     apt-get -y install nodejs
@@ -16,9 +18,19 @@ COPY . /
 # Install app dependencies
 
 RUN cd /src && npm install
-
-
 EXPOSE  8085
+
+
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+RUN wget -qO - https://www.rabbitmq.com/rabbitmq-signing-key-public.asc | apt-key add -
+RUN echo "deb http://www.rabbitmq.com/debian/ testing main" > /etc/apt/sources.list.d/rabbitmq.list
+RUN apt-get update 
+RUN apt-get -y --force-yes install rabbitmq-server
+RUN /usr/sbin/rabbitmq-plugins enable rabbitmq_management
+RUN echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq/rabbitmq.config
+
+EXPOSE 5672 15672 4369
+
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Add the PostgreSQL PGP key to verify their Debian packages.
@@ -61,15 +73,8 @@ EXPOSE 5432
 # Add VOLUMEs to allow backup of config, logs and databases
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-RUN echo "deb http://www.rabbitmq.com/debian/ testing main" > /etc/apt/sources.list.d/rabbitmq.list
-RUN apt-get -qq update > /dev/null
-RUN apt-get -qq -y install rabbitmq-server > /dev/null
-RUN /usr/sbin/rabbitmq-plugins enable rabbitmq_management
-RUN echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq/rabbitmq.config
-
-EXPOSE 5672 15672 4369
-
-
 # Set the default command to run when starting the container
-CMD /usr/lib/postgresql/9.3/bin/postgres -D /var/lib/postgresql/9.3/main -c config_file=/etc/postgresql/9.3/main/postgresql.conf & nodejs /src/index.js & /usr/sbin/rabbitmq-server
+CMD \
+    /usr/lib/postgresql/9.3/bin/postgres -D /var/lib/postgresql/9.3/main -c config_file=/etc/postgresql/9.3/main/postgresql.conf \
+    & nodejs /src/index.js \
+    $ /bin/su - rabbitmq -c "/usr/sbin/rabbitmq-server"
