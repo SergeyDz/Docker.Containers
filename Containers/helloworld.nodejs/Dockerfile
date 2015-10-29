@@ -62,7 +62,6 @@ EXPOSE 5432
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-ADD rabbitmq-signing-key-public.asc /tmp/rabbitmq-signing-key-public.asc
 RUN echo "deb http://www.rabbitmq.com/debian/ testing main" > /etc/apt/sources.list.d/rabbitmq.list
 RUN apt-get -qq update > /dev/null
 RUN apt-get -qq -y install rabbitmq-server > /dev/null

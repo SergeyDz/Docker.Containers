@@ -6,6 +6,7 @@ var PORT = 8085;
 // App
 var app = express();
 app.get('/', function (req, res) {
+  console.log('Request detected: ' + JSon.strignify(req));
   res.send('Hello world\n');
 });
 
