@@ -4,8 +4,6 @@
 
 FROM ubuntu:15.10
 
-RUN apt-get install -y wget
-
 # Install Node.js and npm
 RUN 	apt-get update
 RUN     apt-get -y install nodejs
