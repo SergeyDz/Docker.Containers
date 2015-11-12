@@ -5,7 +5,7 @@
 FROM ubuntu:15.10
 
 # Install Node.js and npm
-RUN 	apt-get update
+RUN  	apt-get  update
 RUN     apt-get -y install nodejs
 RUN     apt-get -y install npm
 
@@ -16,7 +16,7 @@ COPY . /
 # Install app dependencies
 
 RUN cd /src && npm install
-EXPOSE  8086
+EXPOSE  8090
 
 
 CMD  nodejs /src/index.js

@@ -28,6 +28,7 @@ RUN apt-get update
 RUN apt-get -y --force-yes install rabbitmq-server
 RUN /usr/sbin/rabbitmq-plugins enable rabbitmq_management
 RUN echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq/rabbitmq.config
+RUN service rabbitmq-server restart
 
 EXPOSE 5672 15672 4369
 
