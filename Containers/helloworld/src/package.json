@@ -5,6 +5,10 @@
   "description": "Node.js Hello world app on Ubuntu using docker",
   "author": "Sergey Dzyuban <sergey.dzyuban@gmail.com>",
   "dependencies": {
-    "express": "latest"
+    "express": "latest",
+    "bunyan": "latest",
+    "bunyan-logstash-tcp": "latest",
+    "bunyan-lumberjack":"latest" ,
+    "fs": "latest"
   }
 }

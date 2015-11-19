@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t sergeyd/ubuntu-hello-world ../.
+docker build -t sergeydz/helloworld ../.
