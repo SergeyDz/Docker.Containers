@@ -1,26 +1,30 @@
-var bunyan      = require('bunyan');
-var bunyantcp   = require('bunyan-logstash-tcp');
+var fs = require('fs');
+var bunyan = require('bunyan');
+var bunyanLumberjackStream = require('bunyan-lumberjack');
+
+var config = JSON.parse(fs.readFileSync('src/config/logger.json', 'utf8')).logstash;
+
+var outStream = bunyanLumberjackStream({
+    tlsOptions: {
+        host: config.host,
+        port: config.port,
+        ca: [fs.readFileSync(config.cert, {encoding: 'utf-8'})]
+    }
+});
+
+outStream.on('connect', function() {
+    console.log("Connected!");
+});
+outStream.on('dropped', function(count) {
+    console.log("ERROR: Dropped " + count + " messages!");
+});
+outStream.on('disconnect', function(err) {
+    console.log("WARN : Disconnected", err);
+});
 
 var log = bunyan.createLogger({
-    name: 'example',
-    streams: [{
-        level: 'debug',
-        stream: process.stdout
-    },{
-        level: 'debug',
-        type: "raw",
-        stream: bunyantcp.createStream({
-            host: '127.0.0.1',
-            port: 9998
-        })
-    }],
-    level: 'debug'
+    name: "myLog",
+    streams: [{level: 'debug', type: 'raw', stream: outStream}]
 });
- 
-log.debug('test');
-log.error('error test');
-
 
 exports.log = log;
-
-

@@ -1,0 +1,8 @@
+{ 
+	"logstash": 
+	{
+		"host": "elk.marathon.mesos",
+		"port": 5000,
+		"cert": "src/logstash-forwarder.crt"
+	}
+}
