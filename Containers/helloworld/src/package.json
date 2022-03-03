@@ -9,6 +9,6 @@
     "bunyan": "latest",
     "bunyan-logstash-tcp": "latest",
     "bunyan-lumberjack":"latest" ,
-    "fs": "latest"
+    "fs": "0.0.2"
   }
 }
